@@ -1,0 +1,52 @@
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="NLSpike logo">
+  <defs>
+    <linearGradient id="spikeGradient" x1="34" y1="125" x2="206" y2="125" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1D4ED8"/>
+      <stop offset="0.48" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+    <linearGradient id="nodeGradient" x1="62" y1="70" x2="180" y2="182" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1F4D"/>
+      <stop offset="1" stop-color="#173B8F"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0B1F4D" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="240" height="240" rx="48" fill="#F8FAFC"/>
+
+  <g opacity="0.92">
+    <path d="M120 25C172.467 25 215 67.533 215 120C215 172.467 172.467 215 120 215C67.533 215 25 172.467 25 120C25 67.533 67.533 25 120 25Z" stroke="#0B1F4D" stroke-width="8" stroke-linecap="round" stroke-dasharray="34 24"/>
+    <path d="M120 40V68" stroke="#0B1F4D" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12"/>
+    <path d="M120 172V200" stroke="#0B1F4D" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12"/>
+    <path d="M40 120H68" stroke="#0B1F4D" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12"/>
+    <path d="M172 120H200" stroke="#0B1F4D" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12"/>
+  </g>
+
+  <g stroke="#94A3B8" stroke-width="4" stroke-linecap="round">
+    <path d="M74 82H108M142 82H176"/>
+    <path d="M74 120H108M142 120H176"/>
+    <path d="M74 158H108M142 158H176"/>
+    <path d="M74 82V158M108 82V158M142 82V158M176 82V158"/>
+  </g>
+
+  <g fill="url(#nodeGradient)" filter="url(#softShadow)">
+    <rect x="61" y="69" width="28" height="28" rx="8"/>
+    <rect x="95" y="69" width="28" height="28" rx="8"/>
+    <rect x="129" y="69" width="28" height="28" rx="8"/>
+    <rect x="163" y="69" width="28" height="28" rx="8"/>
+    <rect x="61" y="107" width="28" height="28" rx="8"/>
+    <rect x="95" y="107" width="28" height="28" rx="8" fill="#0EA5E9"/>
+    <rect x="129" y="107" width="28" height="28" rx="8"/>
+    <rect x="163" y="107" width="28" height="28" rx="8"/>
+    <rect x="61" y="145" width="28" height="28" rx="8" fill="#2563EB"/>
+    <rect x="95" y="145" width="28" height="28" rx="8"/>
+    <rect x="129" y="145" width="28" height="28" rx="8" fill="#0EA5E9"/>
+    <rect x="163" y="145" width="28" height="28" rx="8"/>
+  </g>
+
+  <path d="M33 128H79C87 128 92 124 96 116L106 97L119 162L138 57L153 178L165 129C168 119 174 115 184 115H207" stroke="url(#spikeGradient)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" filter="url(#softShadow)"/>
+  <path d="M120 56L120 26" stroke="#22D3EE" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="120" cy="24" r="9" fill="#22D3EE"/>
+</svg>

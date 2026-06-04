@@ -1,10 +1,11 @@
 <p align="center">
   <img src="assets/logo.svg" width="128" alt="NLSpike logo">
 </p>
+
 <h1 align="center">Plug-and-Play Spiking Operators: Breaking the Nonlinearity Bottleneck in Spiking Transformers</h1>
 
 <p align="center">
-  Portable float reference operators for plug-and-play Transformer nonlinearities.
+  用于即插即用 Transformer 非线性算子的可移植 float reference 实现。
 </p>
 
 <p align="center">
@@ -20,49 +21,40 @@
 
 ---
 
-## Overview
+## 项目简介
 
-NLSpike provides plug-and-play approximations for Transformer nonlinear
-operators that are awkward to express directly in ANN-to-SNN conversion
-pipelines:
+NLSpike 面向 ANN-to-SNN 转换流程中较难直接脉冲化的 Transformer 非线性算子，提供即插即用的近似实现：
 
 - `Softmax`
 - `SiLU`
 - `RMSNorm`
 
-This repository releases the portable **float reference** implementation. It is
-intended for operator-level evaluation, ablation, and backend-independent
-integration experiments. It deliberately avoids binding the implementation to a
-specific SpikeLLM, SpikeZIP, SpikingJelly, or custom LIF neuron class.
+本仓库发布的是可移植的 **float reference** 实现，主要用于算子级误差评估、消融实验，以及与具体 SNN 后端无关的集成验证。该实现不会绑定到某一个特定的 SpikeLLM、SpikeZIP、SpikingJelly 或自定义 LIF 神经元类。
 
 <p align="center">
   <img src="assets/architecture.png" width="96%" alt="NLSpike architecture">
 </p>
 
-## Why Float Reference?
+## 为什么发布 Float Reference？
 
-Different SNN runtimes define their own LIF states, reset rules, thresholds,
-temporal layouts, and tensor conventions. A single universal LIF class would be
-fragile and hard to reuse.
+不同 SNN 运行时通常有各自的 LIF 状态、重置规则、阈值设置、时间维布局和张量约定。因此，一个所谓“通用”的 LIF 类很容易变得脆弱，也很难直接复用。
 
-Instead, this release exposes the operator decomposition in a runtime-neutral
-form:
+因此，本仓库以运行时无关的方式公开 NLSpike 的算子分解：
 
-- **PWL-Exp**: piecewise-linear exponential approximation on a clipped interval
-- **Division-style normalization**: float reference for the quotient stage
-- **PolarNorm**: CORDIC-style L2 norm approximation for RMSNorm
+- **PWL-Exp**：在裁剪区间上的分段线性指数近似
+- **Division-style normalization**：商计算阶段的 float reference
+- **PolarNorm**：用于 RMSNorm 的 CORDIC-style L2 norm 近似
 
-Backend-specific spike implementations can then wrap the same decomposition
-with their own LIF neuron groups.
+如果需要接入具体 SNN 框架，可以在该分解的基础上，用对应框架自己的 LIF neuron group 进行后端封装。
 
-## Installation
+## 安装
 
 ```bash
 pip install -r requirements.txt
 pip install -e .
 ```
 
-## Quick Start
+## 快速开始
 
 ```python
 import torch
@@ -80,19 +72,17 @@ y_softmax = softmax(logits)
 y_rmsnorm = rmsnorm(x)
 ```
 
-## Operator Evaluation
+## 算子级评估
 
-Run the operator-level test without datasets or checkpoints:
+无需数据集或模型 checkpoint，即可运行算子级随机张量测试：
 
 ```bash
 python examples/evaluate_operator_errors.py --device cpu
 ```
 
-The script compares NLSpike operators against PyTorch references quantized to
-the same 8-bit output grid. The default SiLU range is `[-5, 5]`, matching the
-reference clipped interval.
+该脚本会将 NLSpike 算子与 PyTorch reference 进行对比，并将二者量化到相同的 8-bit 输出网格。默认情况下，SiLU 的测试区间为 `[-5, 5]`，与 reference setting 中的 clipped interval 保持一致。
 
-Representative CPU results:
+代表性 CPU 测试结果如下：
 
 | Operator | Setting | Max Abs Error | Mean Abs Error |
 |---|---:|---:|---:|
@@ -104,10 +94,9 @@ Representative CPU results:
 | RMSNorm | `dim=64` | `3.906250e-03` | `5.055964e-05` |
 | RMSNorm | `dim=256` | `3.906250e-03` | `7.186830e-05` |
 
-The maximum error is bounded by one 8-bit grid step (`1 / 256`), matching the
-intended operator-level behavior of the float reference.
+最大误差受一个 8-bit 网格步长限制，即 `1 / 256`，这与 float reference 的算子级预期行为一致。
 
-## Repository Layout
+## 仓库结构
 
 ```text
 .
@@ -127,28 +116,28 @@ intended operator-level behavior of the float reference.
 `-- requirements.txt
 ```
 
-## Scope
+## 发布范围
 
-Included:
+本仓库包含：
 
-- float reference implementations of NLSpike SiLU, Softmax, and RMSNorm
-- operator-level random-tensor evaluation
-- architecture figure and lightweight project assets
+- NLSpike SiLU、Softmax 和 RMSNorm 的 float reference 实现
+- 算子级随机张量评估脚本
+- 架构图和轻量级项目资源
 
-Not included:
+本仓库不包含：
 
-- datasets or cached dataloaders
-- pretrained weights or quantized checkpoints
-- model training code
-- backend-specific LIF classes
-- hardware-specific kernels
-- private paths or machine-specific scripts
+- 数据集或缓存 dataloader
+- 预训练权重或量化 checkpoint
+- 模型训练代码
+- 特定后端绑定的 LIF 类
+- 硬件相关 kernel
+- 私有路径或机器相关脚本
 
-## Citation
+## 引用
 
-If this reference implementation is useful in your work, please cite:
+如果该 reference implementation 对你的工作有帮助，请引用：
 
-```
+```bibtex
 @article{yuan2026plug,
   title={Plug-and-Play Spiking Operators: Breaking the Nonlinearity Bottleneck in Spiking Transformers},
   author={Yuan, Xinzhe and Peng, Xiang and Gu, Bin and Xiong, Huan},
@@ -157,6 +146,6 @@ If this reference implementation is useful in your work, please cite:
 }
 ```
 
-## License
+## 许可证
 
-This project is released under the MIT License. See [LICENSE](LICENSE).
+本项目基于 MIT License 发布，详见 [LICENSE](LICENSE)。
